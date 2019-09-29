@@ -28,6 +28,14 @@ class FunctionsTest {
     val upper4 = { value: String -> value.toUpperCase() }
 
     @Test
+    fun infix_notation() {
+        assertThat("One" concat "Two").isEqualTo("OneTwo")
+        assertThat("Three".concat("Four")).isEqualTo("ThreeFour")
+    }
+
+    private infix fun String.concat(other: String) = this + other
+
+    @Test
     fun function_with_default_parameters() {
         val result1 = printPersonDetails()
         val result2 = printPersonDetails("Pedro", 35)
