@@ -16,8 +16,30 @@ class FunctionsTest {
 
     @Test
     fun infix_notation() {
-        assertThat("One" concat "Two").isEqualTo("OneTwo")
-        assertThat("Three".concat("Four")).isEqualTo("ThreeFour")
+        assertThat(Text("One") concat "Two").isEqualTo("OneTwo")
+        assertThat(Text("Three").concat("Four")).isEqualTo("ThreeFour")
+    }
+
+    @Test
+    fun lambda_as_last_parameter() {
+        val result1 = Text("lowercase")
+            .transform { s -> s.toUpperCase() }
+        assertThat(result1).isEqualTo("LOWERCASE")
+
+        val result2 = Text("UPPERCASE")
+            .transform(applyTransformTo = { s -> s.toLowerCase() })
+        assertThat(result2).isEqualTo("uppercase")
+    }
+
+    @Test
+    fun lambda_with_other_params() {
+        val result1 =
+            Text("td").transformWrap(String::toUpperCase, "<", ">")
+        val result2 =
+            Text("  table  ").transformWrap(String::trim, "<", ">")
+
+        assertThat(result1).isEqualTo("<TD>")
+        assertThat(result2).isEqualTo("<table>")
     }
 
     @Test
