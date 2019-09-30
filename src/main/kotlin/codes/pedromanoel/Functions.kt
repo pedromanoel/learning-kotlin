@@ -48,3 +48,7 @@ fun join(joinString: String, vararg values: String): String {
 
     return result.toString().removeSuffix(joinString)
 }
+
+/** Extension function */
+
+fun String.wrapped(prefix: String, suffix: String) = prefix + this + suffix

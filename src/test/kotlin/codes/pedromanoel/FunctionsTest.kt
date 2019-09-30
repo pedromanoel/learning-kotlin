@@ -82,6 +82,10 @@ class FunctionsTest {
         )
 
         assertThat(result).isEqualTo("one, two, three")
+    }
 
+    @Test
+    fun extension_to_string_class() {
+        assertThat("value".wrapped("--", "++")).isEqualTo("--value++")
     }
 }
