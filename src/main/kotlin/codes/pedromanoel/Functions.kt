@@ -1,5 +1,7 @@
 package codes.pedromanoel
 
+import java.lang.StringBuilder
+
 /** Complete declaration */
 fun upper1(value: String): String {
     return value.toUpperCase()
@@ -35,3 +37,14 @@ data class Text(val value: String) {
 
 }
 
+/** Varargs */
+fun join(joinString: String, vararg values: String): String {
+    val result = StringBuilder()
+
+    for (i in values) {
+        result.append(i)
+        result.append(joinString)
+    }
+
+    return result.toString().removeSuffix(joinString)
+}

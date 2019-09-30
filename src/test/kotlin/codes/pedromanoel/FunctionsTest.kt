@@ -21,25 +21,29 @@ class FunctionsTest {
     }
 
     @Test
-    fun lambda_as_last_parameter() {
-        val result1 = Text("lowercase")
-            .transform { s -> s.toUpperCase() }
-        assertThat(result1).isEqualTo("LOWERCASE")
+    fun lambda_as_block() {
+        val result = Text("lowercase").transform { s -> s.toUpperCase() }
+        assertThat(result).isEqualTo("LOWERCASE")
+    }
 
-        val result2 = Text("UPPERCASE")
+    @Test
+    fun lambda_as_parameter() {
+        val result = Text("UPPERCASE")
             .transform(applyTransformTo = { s -> s.toLowerCase() })
-        assertThat(result2).isEqualTo("uppercase")
+        assertThat(result).isEqualTo("uppercase")
+    }
+
+    @Test
+    fun lambda_as_method_reference() {
+        val result = Text("UPPERCASE").transform(String::toLowerCase)
+        assertThat(result).isEqualTo("uppercase")
     }
 
     @Test
     fun lambda_with_other_params() {
-        val result1 =
-            Text("td").transformWrap(String::toUpperCase, "<", ">")
-        val result2 =
-            Text("  table  ").transformWrap(String::trim, "<", ">")
+        val result = Text("  table  ").transformWrap(String::trim, "<", ">")
 
-        assertThat(result1).isEqualTo("<TD>")
-        assertThat(result2).isEqualTo("<table>")
+        assertThat(result).isEqualTo("<table>")
     }
 
     @Test
@@ -61,5 +65,23 @@ class FunctionsTest {
         val result = printPersonDetails()
 
         assertThat(result).isEqualTo("Name: <UNDEFINED>, Age: <UNDEFINED>")
+    }
+
+    @Test
+    fun varargs() {
+        val result = join(" - ", "apple", "orange", "lemon")
+
+        assertThat(result).isEqualTo("apple - orange - lemon")
+    }
+
+    @Test
+    fun varargs_with_spread_operator() {
+        val result = join(
+            values = *arrayOf("one", "two", "three"),
+            joinString = ", "
+        )
+
+        assertThat(result).isEqualTo("one, two, three")
+
     }
 }
