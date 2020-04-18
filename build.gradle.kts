@@ -1,7 +1,10 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+import org.gradle.api.tasks.testing.logging.TestLogEvent.*
+
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm").version("1.3.20")
+    id("org.jetbrains.kotlin.jvm").version("1.3.71")
 }
 
 repositories {
@@ -15,10 +18,21 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+tasks.test {
+    useJUnitPlatform()
+    systemProperty("junit.jupiter.testinstance.lifecycle.default", "per_class")
+    testLogging {
+        events(PASSED, SKIPPED, FAILED)
+        exceptionFormat = FULL
+    }
+}
 
+dependencies {
+    implementation(platform("org.junit:junit-bom:5.6.2"))
+    implementation(kotlin("stdlib-jdk8"))
+
+    testImplementation(kotlin("test"))
+    testImplementation(kotlin("test-junit5"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.13.2")
-    testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
